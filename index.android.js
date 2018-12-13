@@ -22,21 +22,20 @@ module.exports = {
     });
   },
 
-  showPaymentViewController(config = {}) {
+  showPaymentViewController (config = {}) {
     var options = {
       callToActionText: config.callToActionText,
       title: config.title,
       description: config.description,
-      amount: config.amount,
-      threeDSecure: config.threeDSecure,
-    };
-    return new Promise(function(resolve, reject) {
+      amount: config.amount
+    }
+    return new Promise(function (resolve, reject) {
       Braintree.paymentRequest(
         options,
-        nonce => resolve(nonce),
+        (nonce, deviceData) => resolve({ nonce, deviceData }),
         error => reject(error)
-      );
-    });
+      )
+    })
   },
 
   showPayPalViewController() {
