@@ -42,7 +42,7 @@ public class Braintree extends ReactContextBaseJavaModule implements ActivityEve
   private Context mActivityContext;
 
   private BraintreeFragment mBraintreeFragment;
-
+  private String deviceData;
   private ReadableMap threeDSecureOptions;
 
   public Braintree(ReactApplicationContext reactContext) {
@@ -200,6 +200,7 @@ public class Braintree extends ReactContextBaseJavaModule implements ActivityEve
     this.successCallback.invoke(nonce);
   }
 
+
   public void nonceErrorCallback(String error) {
     this.errorCallback.invoke(error);
   }
@@ -214,6 +215,9 @@ public class Braintree extends ReactContextBaseJavaModule implements ActivityEve
     String title = null;
     String description = null;
     String amount = null;
+
+    BraintreeData mBraintreeData = new BraintreeData(getCurrentActivity(), BraintreeEnvironment.PRODUCTION);
+    deviceData = mBraintreeData.collectDeviceData();
 
     if (options.hasKey("callToActionText")) {
       callToActionText = options.getString("callToActionText");
@@ -267,7 +271,7 @@ public class Braintree extends ReactContextBaseJavaModule implements ActivityEve
           if (this.threeDSecureOptions != null) {
             ThreeDSecure.performVerification(this.mBraintreeFragment, paymentMethodNonce.getNonce(), String.valueOf(this.threeDSecureOptions.getDouble("amount")));
           } else {
-            this.successCallback.invoke(paymentMethodNonce.getNonce());
+            this.successCallback.invoke(paymentMethodNonce.getNonce(), deviceData);
           }
           break;
         case BraintreePaymentActivity.BRAINTREE_RESULT_DEVELOPER_ERROR:
