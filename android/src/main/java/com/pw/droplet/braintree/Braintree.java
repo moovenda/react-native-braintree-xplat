@@ -208,6 +208,25 @@ public class Braintree extends ReactContextBaseJavaModule implements ActivityEve
   }
 
   @ReactMethod
+  public void getDeviceData(final ReadableMap options, final Callback successCallback, final Callback errorCallback) {
+
+    if (options.hasKey("sandbox")) {
+      if(options.getBoolean("sandbox")){
+        env = BraintreeEnvironment.SANDBOX;
+      }
+    }
+
+    BraintreeData mBraintreeData = new BraintreeData(getCurrentActivity(), env);
+    deviceData = mBraintreeData.collectDeviceData();
+    if(deviceData != null && !deviceData.isEmpty()){
+      successCallback.invoke(deviceData);
+    } else {
+      errorCallback.invoke("EMPTY DEVICEDATA");
+    }
+
+  }
+
+  @ReactMethod
   public void paymentRequest(final ReadableMap options, final Callback successCallback, final Callback errorCallback) {
     this.successCallback = successCallback;
     this.errorCallback = errorCallback;

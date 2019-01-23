@@ -44,4 +44,17 @@ module.exports = {
       Braintree.paypalRequest(nonce => resolve(nonce), error => reject(error));
     });
   },
+
+  getDeviceData (config = {}) {
+    var options = {
+      sandbox: config.sandbox
+    }
+    return new Promise(function (resolve, reject) {
+      Braintree.getDeviceData(
+        options,
+        (deviceData) => resolve({ deviceData }),
+        error => reject(error)
+      )
+    })
+  },
 };
