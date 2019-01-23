@@ -210,6 +210,8 @@ public class Braintree extends ReactContextBaseJavaModule implements ActivityEve
   @ReactMethod
   public void getDeviceData(final ReadableMap options, final Callback successCallback, final Callback errorCallback) {
 
+    BraintreeEnvironment env = BraintreeEnvironment.PRODUCTION;
+
     if (options.hasKey("sandbox")) {
       if(options.getBoolean("sandbox")){
         env = BraintreeEnvironment.SANDBOX;
