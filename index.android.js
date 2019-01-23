@@ -27,7 +27,8 @@ module.exports = {
       callToActionText: config.callToActionText,
       title: config.title,
       description: config.description,
-      amount: config.amount
+      amount: config.amount,
+      sandbox: config.sandbox
     }
     return new Promise(function (resolve, reject) {
       Braintree.paymentRequest(
