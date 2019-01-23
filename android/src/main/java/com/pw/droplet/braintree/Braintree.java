@@ -217,8 +217,15 @@ public class Braintree extends ReactContextBaseJavaModule implements ActivityEve
     String title = null;
     String description = null;
     String amount = null;
+    String env = BraintreeEnvironment.PRODUCTION;
 
-    BraintreeData mBraintreeData = new BraintreeData(getCurrentActivity(), BraintreeEnvironment.PRODUCTION);
+    if (options.hasKey("sandbox")) {
+      if(options.getBoolean("sandbox")){
+        env = BraintreeEnvironment.SANDBOX
+      }
+    }
+
+    BraintreeData mBraintreeData = new BraintreeData(getCurrentActivity(), env);
     deviceData = mBraintreeData.collectDeviceData();
 
     if (options.hasKey("callToActionText")) {
